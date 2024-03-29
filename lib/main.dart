@@ -12,24 +12,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple, brightness: Brightness.dark),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -58,68 +45,82 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return SafeArea(
-      child: Scaffold(
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(20),
-              height: 800,
-              child: const CustomScrollView(slivers: [
-                SliverToBoxAdapter(
-                  child: ProgressWidget(
-                      secondaryColumnWidth: 90,
-                      isScrollable: true,
-                      statusIcon: Icon(Icons.add, size: 35),
-                      iconBackgroundColor: Colors.black,
-                      nodeCount: 5,
-                      completedColor: Color.fromRGBO(255, 124, 21, 1),
-                      inProgressColor: Color.fromRGBO(102, 193, 229, 1),
-                      incompleteColor: Color.fromRGBO(128, 128, 128, 1),
-                      titleList: [
-                        'ddsd',
-                        'dfdff',
-                        'ffdbdfbdfb',
-                        'fgffff',
-                        'ffxcvxbxbxbb'
-                      ],
-                      contentList: [
-                        'dfddrhdfrfhdfhfdhhdfhdhdhdhhddhdffdhdhdhsffhfdhfs cscjscjzclzczlkcj ckccjcjclzcjcjcxkxkczjczkcjocvkcxovkcxvkcxvocvkxcov ffbfbddfb dfdfnndndnnndndnn kjgkgkjgkgkj jkjgjkgkjgkgv kjkjgkjgkjg',
-                        'ffff',
-                        'gfgfdg',
-                        'dvdxvxv',
-                        'vvxvxvxvx'
-                      ],
-                      isSecondaryColumnEnabled: true,
-                      secondaryContentList: [
-                        'dvfdfdgdfgdffdffddhdhdfhfdhfdfdhdfhdhdhhhfhdhdfdhfdjk',
-                        'fdgfdg',
-                        'gdfg',
-                        'czczcx',
-                        'dczczc'
-                      ],
-                      secondaryTitleList: [
-                        'dfdf',
-                        'gdfg',
-                        'fgfgfgfdf',
-                        'cccczczc',
-                        'ssccczcz'
-                      ],
-                      shouldIconHaveBorder: false,
-                      statusCompletedList: [true, true, true, false, false],
-                      circleRadius: 20),
-                )
-              ]),
-            )
-          ],
-        ), // This trailing comma makes auto-formatting nicer for build methods.
+        child: Scaffold(
+      appBar: AppBar(
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+        title: const Text("Tracker widget demo"),
       ),
-    );
+      body: SingleChildScrollView(
+          child: Column(children: [
+        Container(
+            padding: const EdgeInsets.all(20),
+            child: Tracker(
+              // lineWidth: 4.0,
+              titleStyle: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              contentStyle: const TextStyle(fontSize: 15, color: Colors.white),
+              //iconBackgroundColor: const Color.fromRGBO(255, 124, 21, 1),
+              // titleStyle: const TextStyle(fontSize: 30, color: Colors.black),
+              // contentStyle: const TextStyle(fontSize: 60, color: Colors.black),
+              verticalTextAlign: TrackerAlignment.top,
+              shouldIconHaveBackground: true,
+              shouldIconHaveBorder: false,
+              iconBorderColor: const Color.fromARGB(255, 255, 255, 255),
+              titleList: const ["Ordered", "Shipped", "On its way", ""],
+              contentList: const [
+                "NY,United States",
+                "California, United States",
+                "In progress. There might be delay expected due to weather conditions and unavailiblity of delivery agents please contact customer service in case of delivery time change",
+                ""
+              ],
+              nodeCount: 4,
+              // statusIcons: const [
+              //   Icon(
+              //     Icons.shopping_bag,
+              //   ),
+              //   Icon(
+              //     Icons.delivery_dining_outlined,
+              //   ),
+              //   Icon(
+              //     Icons.fire_truck,
+              //   ),
+              //   Icon(
+              //     Icons.check,
+              //   )
+              // ],
+              height: 300,
+              completedColor: const Color.fromARGB(255, 0, 173, 35),
+              incompleteColor: const Color.fromRGBO(128, 128, 128, 1),
+              context: context,
+              width: 200,
+              circleRadius: 13,
+              inProgressColor: const Color.fromARGB(255, 73, 171, 210),
+              isSecondaryColumnEnabled: true,
+              secondaryTitleList: const [
+                "01,Jan 2024",
+                "04,Jan 2024",
+                "07,Jan 2024",
+                "Delivery"
+              ],
+              secondaryContentList: const [
+                "10:20 AM",
+                "10:40 AM",
+                "9:00 AM",
+                "Estimated September 26,2024"
+              ],
+              statusCompletedList: const [
+                TrackerStatus.completed,
+                TrackerStatus.completed,
+                TrackerStatus.inProgress,
+                TrackerStatus.incomplete
+              ],
+            ))
+      ])),
+    )
+        // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }
